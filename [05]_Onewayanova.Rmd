@@ -1,0 +1,180 @@
+#Les 5: One-way ANOVA
+
+```{block2, type='ABD'}
+
+Lees Chapter 15 (*Comparing means of more than two groups*):
+
+```
+
+Met een **One-way ANOVA** kan je, i.t.t. de onafhankelijke t-toets, meer dan twee groepen met elkaar vergelijken.
+Je hebt dan één verklarende variabele van nominaal of ordinaal niveau, verdeeld in drie of meer groepen.
+Je kan dat testen of de groepen van elkaar verschillen.
+Wil je weten welke groepen onderling van elkaar verschillen, dan doe je dat met een **posthoctoets**.
+
+##Variantieanalyse
+Men doet onderzoek naar de melksnelheid van drie verschillende rassen koeien (HF, MRY en RHF) waarbij de melksnelheid in kg/min is gemeten bij een aantal koeien van deze rassen, zie hieronder:
+
+```{r, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+library(tidyverse)
+ras <- c(rep("HF", 5), rep("MRY", 4), rep("RHF", 3))
+Melksnelheid <- c(2.99, 2.92,3.11, 2.84, 2.90,
+                3.26, 3.09, 3.18, 3.31,
+                2.96, 3.08, 2.86)
+koeien <- data.frame(ras, Melksnelheid)
+
+koeien %>% ggplot(aes(ras, Melksnelheid)) + geom_point() + theme_classic()
+
+```
+
+Melkgift is de **responsvariabele** en ras de **verklarende variabele**.
+Nu is de vraag of de rassen van elkaar verschillen in melkgift.
+Uitgedrukt in hypotheses:
+
+* H~0~: gemiddelde melkgift is gelijk voor de drie rassen
+* H~1~: gemiddelden melkgift zijn niet allemaal gelijk voor de drie rassen
+
+Onder de H~0~ kan de data beschreven worden als één populatie met gemiddelde is `r round(mean(koeien$Melksnelheid), digits=2)` kg/min.
+Onder de H~1~ heeft ieder ras een eigen gemiddelde.
+
+We kunnen in de grafiek al zien dat ras MRY nogal afwijkt van de andere twee.
+Met een ANOVA kunnen we berekenen hoe waarschijnlijk het is dat we een minstens zo afwijkend patroon zien als de H~0~ wel waar is (dus geen verschil).
+
+Hoe voeren we dat uit in R:
+```{r}
+
+fit <- lm(Melksnelheid ~ ras, data=koeien)
+summary(fit)
+
+```
+
+Op de laatste regel van de output staat het resultaat van de F-toets.
+De p-waarde is `r anova(fit)$"Pr(>F)"[1]`. 
+Het is dus heel onwaarschijnlijk dat de H~0~ waar is, en kunnen die met een gerust hart verwerpen.
+
+De F-waarde is `r anova(fit)$"F value"[1]`.
+De waarde staat voor de verhouding van verklaarde variantie door het model en overgebleven variantie.
+Hoe grote de F-waarde, des te beter het model de totale variantie verklaart.
+
+We kunnen de totale variantie en overgebleven variantie weergeven in een histogram:
+
+```{r, echo = FALSE}
+
+var_total <- koeien$Melksnelheid-mean(koeien$Melksnelheid)
+var_error <- fit$residuals
+model_var <- c(rep("H0", length(var_total)), rep("H1", length(var_error)))
+mydata <- data.frame(model_var, var=c(var_total, var_error))
+mydata %>% 
+  ggplot(aes(var)) +
+  geom_histogram(aes(color = model_var, fill = model_var), 
+                 position="identity", binwidth = 0.05, alpha=0.4) +
+  labs(fill="Residuën", color="Residuën") +
+  theme_classic()
+
+
+```
+
+De volgende opgave is gebaseerd op een onderzoek, gepubliceerd in the *American Society of Animal Science*.
+Het sporenelement silicium (Si) heeft een positieve invloed op de gezondheid van beenderen.
+In een onderzoek wil men de vraag beantwoord zien of het toevoegen van voedingssupplementen met silicium aan het rantsoen van zogende merries het siliciumgehalte in het bloed van veulens beïnvloedt.
+In een experiment met 15 zogende merries van hetzelfde ras en ongeveer dezelfde leeftijd probeert men 3 verschillende doses voedingssupplementen met silicium uit.
+De 15 merries worden via loting toebedeeld aan een specifieke dosis.
+Na enige tijd meet men het siliciumgehalte in het bloed van de veulens.
+De resultaten:
+
+| dosis   | Si-gehalte ($\mu$g/l)    |
+| :-----: | :--------------------: |
+|   1     | 129; 137; 129; 134; 139  |
+|   2     | 133; 148; 142; 139; 134  |
+|   3     | 138; 148; 140; 145; 148  |
+
+
+```{exercise, Silicium}
+Silicium
+
+* Maak een Excelbestand van bovenstaande data. Verzin een goede structuur
+* Zorg dat het Excelbestand in je projectfolder van RStudio staat
+* Schrijf een script dat de volgende zaken uitvoert:
+    * Importeer Excel
+    * Test of dosis een effect heeft op siliciumgehalte in het bloed van de veulen m.b.v. een GLM
+
+```
+
+
+
+
+
+##Posthoctoets
+Met een posthoctoets kan je groepen onderling vergelijken.
+Je voert het uit om te kijken welke groepen onderling significant van elkaar verschillen.
+Waarom niet gewoon een aantal t-toetsen uitvoeren (je vergelijkt immers telkens twee groepen onderling)? 
+Twee redenen:
+
+* Ten eerste omdat je op zoek gaat of en waar onderlinge verschillen zitten. En voor al die toetsen bij elkaar wil je de kans op een type-1-fout (ten onrechte H~0~ verwerpen) op 0,05 houden. 
+* Ten tweede omdat je dezelfde data gebruikt om verschillende toetsen uit te voeren.
+
+In de loop van de afgelopen eeuw zijn er heel wat verschillende posthoctoetsen ontwikkeld en is het moeilijk door de bomen het bos te zien.
+We gebruiken een aantal simpele stelregels:
+
+* Alle groepen onderling vergelijken:
+    * Bij ongeveer gelijke groepsgroottes: **Tukey HSD**.
+    * Bij ongelijke groepsgrootte:  **Bonferroni**.
+* Alleen behandelingen ten opzichte van een controlegroep vergelijken:
+    * De **Dunnet's** posthoctoets.
+
+Hoe voeren we die uit (als voorbeeld met de melkgiftdata, waarbij `fit` het resultaat is van de functie `lm()`)?
+
+Tukey HSD:
+```{r}
+
+TukeyHSD(aov(fit))
+
+```
+
+Resultaat is een lijst van onderlinge vergelijkingen.
+De bovenste en onderste vergelijking zijn significant (p<0.05).
+Dus MRY verschilt significant van HF en RHF, maar HF en RHF verschillen onderling niet significant van elkaar.
+
+Bonferroni:
+
+```{r}
+pairwise.t.test(koeien$Melksnelheid, koeien$ras, p.adj = "bonf")
+```
+
+Deze test is iets conservatiever (voorzichtiger) dus de p-waardes zijn een fractie hoger.
+
+Dunnet's
+
+De Dunnet's posthoctoets kan je het gemakkelijkst uitvoeren met behulp van de package **DescTools**.
+De koeiendataset heeft geen controlegroep, maar als we aannemen dat het ras MRY de controlegroep is, krijg je de volgende code:
+
+
+```{r}
+library(DescTools)
+DunnettTest(koeien$Melksnelheid, koeien$ras, control = "MRY")
+
+```
+
+
+    
+```{exercise, posthoc}
+posthoctoets
+
+* Voer de juiste posthoctoets uit bij voorgaande opgave over silicium.
+
+```
+
+
+##Opgaven uit het boek
+Gebruik de functie anova(fit) om de juiste data te vinden voor de opgaven waar aangegeven is om R te gebruiken.
+Hiermee maak je een ANOVA-tabel die de verschillende varianties weergeeft (SS=*sum of squares*).
+
+
+```{exercise, les5}
+
+Maak de volgende *practical problems* uit het boek:
+
+1\*, 2, 3\*, 4\*, 5\*, 6\*, 8, 9, 11
+
+\*Niet met de hand uitrekenen, gebruik R
+
+```

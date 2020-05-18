@@ -1,0 +1,161 @@
+#Les 6: Two-way ANOVA
+
+```{block2, type='ABD'}
+
+Lees Chapter 18 (*Multiple explanatory variables*):
+
+* Alle paragrafen
+
+```
+
+Stel, je wilt het effect van drie soorten bemesting op plantengroei uittesten op een groot proefveld.
+Het proefveld heeft een duidelijk gradient van droog naar vochtig.
+Tijdens de lessen over *experimental design* heb je gehoord over het *randomized block design* (gewarde blokproef).
+Deze opzet past precies bij dit onderzoek.
+Je verdeelt dan het proefveld in blokken, dwars op de richting van de vochtgradiënt. Binnen de blokken verdeel je dan random de plots voor iedere soort bemesting.
+In je statistisch model moet je dan het blokeffect meenemen.
+Dat kan met een **two-way ANOVA**.
+
+
+Je gebruikt dezelfde functie `lm()` als voor de regressie en de one-way ANOVA:
+
+```{r, eval = FALSE}
+fit <- lm(groei~bemesting+blok)
+
+```
+
+Daarna kan je met een posthoctoets checken welke bemesting verschilt van elkaar.
+De posthoctoets houdt rekening met de verschillen tussen de blokken.
+
+```{r, eval = FALSE}
+library(DescTools)
+PostHocTest(aov(fit), which = "bemesting", method = "hsd")
+
+```
+
+##Voorbeeld
+R bevat een dataset van een experiment over effect van vitamine C op tandgroei.
+De vitamine werd toegediend aan huiscavia's (*Cavia porcellus*)in drie doses (*dose*) (0,5, 1 en 2 mg/dag) op twee verschillende manieren (*supp*): sinaasappelsap of vitamine C druppels.
+De lengte van odontoplasten (groeicellen van de tanden) werden gemeten.
+
+De data importeren:
+```{r}
+data("ToothGrowth") 
+```
+
+Checken wat de structuur is:
+```{r}
+str(ToothGrowth)
+```
+
+De verklarende variabelen *supp* en *dose* willen we in de statistische toets behandelen als een factor (categoriedata).
+Maar zoals je in bovenstaande overzicht ziet staan, wordt *dose* niet als factor herkend.
+Dat kunnen we oplossen met:
+
+```{r}
+ToothGrowth$dose <- factor(ToothGrowth$dose)
+```
+
+Ook handig om te checken hoeveel herhalingen er zijn gedaan per behandeling:
+
+```{r}
+table(ToothGrowth$supp, ToothGrowth$dose)
+```
+
+Zo te zien dus een mooi gebalanseerd *full factorial design*.
+
+Altijd goed om eerst de data te bekijken met een paar figuren.
+Als eerste een boxplot:
+
+```{r}
+library(tidyverse)
+ToothGrowth %>% 
+  ggplot(aes(dose, len, colour = supp)) +
+  geom_boxplot() +
+  theme_classic()
+
+```
+
+Bij de lagere doses geeft vitamine C (VC) kortere odontoplasten (len) dan sinaasappelsap (OJ), maar niet bij de hoogste dosis.
+Er is dus mogelijk een **interactie-effect**.
+Verder zie je dat hogere dosis consequent leidt tot langere odontoplasten.
+Dat duidt op een **hoofdeffect** van dose.
+
+Een lijnfiguur kan het nog duidelijker maken (nu met dose en supp omgedraaid):
+
+```{r}
+ToothGrowth %>% 
+  ggplot(aes(supp, len, colour = dose)) +
+  geom_point(stat = 'summary', fun.y=mean, size =3) +
+  geom_jitter(width=0.1) +
+  stat_summary(aes(group = dose), fun.y=mean, geom='line') +
+  theme_classic()
+```
+
+Het effect van OJ naar VC is bij dosis 0,5 en 1 hetzelfde, maar afwezig bij dosis 2.
+Een duidelijke aanwijzing voor een interactie-effect.
+
+Met een *two-way ANOVA* (meervoudige variantie-analyse) kunnen we testen of dat inderdaad zo is:
+
+```{r}
+fit <- lm(len ~ dose * supp, data=ToothGrowth)
+anova(fit)
+```
+
+Dose en supp hebben allebei een significant hoofdeffect (p < 0,05), maar beide hebben ook een interactie-effect (*dose:supp*). 
+
+We kunnen dus de volgende nulhypotheses verwerpen:
+
+$H_{0}: \mu_{OJ} = \mu_{VC}$
+
+ten faveure van:
+
+$H_{1}: \mu_{OJ} \neq \mu_{VC}$
+
+En:
+
+$H_{0}: \mu_{D0.5} = \mu_{D1} =\mu_{D2}$
+
+ten faveure van:
+
+$H_{1}:$ tenminste twee van de drie $\mu$'s zijn verschillend.
+
+Dat waren de hoofdeffecten.
+Voor de interactie-effecten hebben we de volgende nulhypothese:
+
+H~0~: er is geen sprake van een interactie-effect waarbij het effect van supp op len afhangt van welke dosis wordt gehanteerd of andersom, waarbij het effect van dosis op de groei afhangt van welke supp wordt gehanteerd.
+
+ten faveure van:
+
+H~1~: er is sprake van een interactie-effect
+
+Wil je de gemiddelden per combi:
+
+```{r}
+ToothGrowth %>% 
+  group_by(dose, supp) %>% 
+  summarise(mean_len = mean(len),
+            se = sd(len)/sqrt(length(len)))
+```
+
+Willen we checken welke combinaties van elkaar verschillen, dan kunnen we een posthoctoets uitvoeren (in dit geval Tukey-HSD omdat alle groepen even groot zijn):
+
+```{r}
+library(DescTools)
+PostHocTest(aov(fit), method = "hsd")
+
+```
+
+Een flinke lijst output.
+
+
+
+```{exercise, les6}
+
+Maak de volgende *practical problems* uit het boek:
+
+1, 2, 3, 4, 5, 6, 7, 8, 9
+
+```
+
+

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Posthoctoets | Stat2: General linear model</title>
+  <meta name="description" content="Posthoctoets | Stat2: General linear model" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Posthoctoets | Stat2: General linear model" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Posthoctoets | Stat2: General linear model" />
+  
+  
+  
+
+<meta name="author" content="Mark Smits" />
+
+
+<meta name="date" content="2019-10-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="variantieanalyse.html"/>
+<link rel="next" href="opgaven-uit-het-boek-1.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Voorwoord</a><ul>
+<li class="chapter" data-level="" data-path="opzet.html"><a href="opzet.html"><i class="fa fa-check"></i>Opzet</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-1-experimental-design.html"><a href="les-1-experimental-design.html"><i class="fa fa-check"></i>Les 1: Experimental design</a></li>
+<li class="chapter" data-level="" data-path="les-2-experimental-design-vervolg.html"><a href="les-2-experimental-design-vervolg.html"><i class="fa fa-check"></i>Les 2: Experimental design, vervolg</a><ul>
+<li class="chapter" data-level="" data-path="power-berekenen-in-r.html"><a href="power-berekenen-in-r.html"><i class="fa fa-check"></i>Power berekenen in R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-3-general-linear-models.html"><a href="les-3-general-linear-models.html"><i class="fa fa-check"></i>Les 3: General Linear Models</a><ul>
+<li class="chapter" data-level="" data-path="statistisch-schatten.html"><a href="statistisch-schatten.html"><i class="fa fa-check"></i>Statistisch schatten</a></li>
+<li class="chapter" data-level="" data-path="f-toets.html"><a href="f-toets.html"><i class="fa fa-check"></i>F-toets</a></li>
+<li class="chapter" data-level="" data-path="glm-in-r.html"><a href="glm-in-r.html"><i class="fa fa-check"></i>GLM in R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-4-lineaire-regressie.html"><a href="les-4-lineaire-regressie.html"><i class="fa fa-check"></i>Les 4: Lineaire regressie</a><ul>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html"><i class="fa fa-check"></i>Lineaire regressie in R</a><ul>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html#data-importeren"><i class="fa fa-check"></i>data importeren</a></li>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html#figuur-maken"><i class="fa fa-check"></i>Figuur maken</a></li>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html#variantieanalyse-uitvoeren"><i class="fa fa-check"></i>Variantieanalyse uitvoeren</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regressiemodel-gebruiken-voor-voorspellingen.html"><a href="regressiemodel-gebruiken-voor-voorspellingen.html"><i class="fa fa-check"></i>Regressiemodel gebruiken voor voorspellingen</a></li>
+<li class="chapter" data-level="" data-path="oefenen-met-data.html"><a href="oefenen-met-data.html"><i class="fa fa-check"></i>Oefenen met data</a></li>
+<li class="chapter" data-level="" data-path="opgaven-uit-het-boek.html"><a href="opgaven-uit-het-boek.html"><i class="fa fa-check"></i>Opgaven uit het boek</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-5-one-way-anova.html"><a href="les-5-one-way-anova.html"><i class="fa fa-check"></i>Les 5: One-way ANOVA</a><ul>
+<li class="chapter" data-level="" data-path="variantieanalyse.html"><a href="variantieanalyse.html"><i class="fa fa-check"></i>Variantieanalyse</a></li>
+<li class="chapter" data-level="" data-path="posthoctoets.html"><a href="posthoctoets.html"><i class="fa fa-check"></i>Posthoctoets</a></li>
+<li class="chapter" data-level="" data-path="opgaven-uit-het-boek-1.html"><a href="opgaven-uit-het-boek-1.html"><i class="fa fa-check"></i>Opgaven uit het boek</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-6-two-way-anova.html"><a href="les-6-two-way-anova.html"><i class="fa fa-check"></i>Les 6: Two-way ANOVA</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Stat2: General linear model</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="posthoctoets" class="section level2">
+<h2>Posthoctoets</h2>
+<p>Met een posthoctoets kan je groepen onderling vergelijken. Je voert het uit om te kijken welke groepen onderling significant van elkaar verschillen. Waarom niet gewoon een aantal t-toetsen uitvoeren (je vergelijkt immers telkens twee groepen onderling)? Twee redenen:</p>
+<ul>
+<li>Ten eerste omdat je op zoek gaat of en waar onderlinge verschillen zitten. En voor al die toetsen bij elkaar wil je de kans op een type-1-fout (ten onrechte H<sub>0</sub> verwerpen) op 0,05 houden.</li>
+<li>Ten tweede omdat je dezelfde data gebruikt om verschillende toetsen uit te voeren.</li>
+</ul>
+<p>In de loop van de afgelopen eeuw zijn er heel wat verschillende posthoctoetsen ontwikkeld en is het moeilijk door de bomen het bos te zien. We gebruiken een aantal simpele stelregels:</p>
+<ul>
+<li>Alle groepen onderling vergelijken:
+<ul>
+<li>Bij ongeveer gelijke groepsgroottes: <strong>Tukey HSD</strong>.</li>
+<li>Bij ongelijke groepsgrootte: <strong>Bonferroni</strong>.</li>
+</ul></li>
+<li>Alleen behandelingen ten opzichte van een controlegroep vergelijken:
+<ul>
+<li>De <strong>Dunnet’s</strong> posthoctoets.</li>
+</ul></li>
+</ul>
+<p>Hoe voeren we die uit (als voorbeeld met de melkgiftdata, waarbij <code>fit</code> het resultaat is van de functie <code>lm()</code>)?</p>
+<p>Tukey HSD:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">TukeyHSD</span>(<span class="kw">aov</span>(fit))</code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = fit)
+## 
+## $ras
+##                diff         lwr         upr     p adj
+## MRY-HF   0.25800000  0.06583103  0.45016897 0.0114419
+## RHF-HF   0.01466667 -0.19454041  0.22387374 0.9791490
+## RHF-MRY -0.24333333 -0.46212733 -0.02453934 0.0306896</code></pre>
+<p>Resultaat is een lijst van onderlinge vergelijkingen. De bovenste en onderste vergelijking zijn significant (p&lt;0.05). Dus MRY verschilt significant van HF en RHF, maar HF en RHF verschillen onderling niet significant van elkaar.</p>
+<p>Bonferroni:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">pairwise.t.test</span>(koeien$Melksnelheid, koeien$ras, <span class="dt">p.adj =</span> <span class="st">&quot;bonf&quot;</span>)</code></pre></div>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  koeien$Melksnelheid and koeien$ras 
+## 
+##     HF    MRY  
+## MRY 0.014 -    
+## RHF 1.000 0.038
+## 
+## P value adjustment method: bonferroni</code></pre>
+<p>Deze test is iets conservatiever (voorzichtiger) dus de p-waardes zijn een fractie hoger.</p>
+<p>Dunnet’s</p>
+<p>De Dunnet’s posthoctoets kan je het gemakkelijkst uitvoeren met behulp van de package <strong>DescTools</strong>. De koeiendataset heeft geen controlegroep, maar als we aannemen dat het ras MRY de controlegroep is, krijg je de volgende code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DescTools)
+<span class="kw">DunnettTest</span>(koeien$Melksnelheid, koeien$ras, <span class="dt">control =</span> <span class="st">&quot;MRY&quot;</span>)</code></pre></div>
+<pre><code>## 
+##   Dunnett&#39;s test for comparing several treatments with a control :  
+##     95% family-wise confidence level
+## 
+## $MRY
+##               diff     lwr.ci      upr.ci   pval    
+## HF-MRY  -0.2580000 -0.4381654 -0.07783462 0.0084 ** 
+## RHF-MRY -0.2433333 -0.4484606 -0.03820602 0.0229 *  
+## 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+
+<div class="exercise">
+<p><span id="exr:posthoc" class="exercise"><strong>Opdracht 8  </strong></span>posthoctoets</p>
+<ul>
+<li>Voer de juiste posthoctoets uit bij voorgaande opgave over silicium.</li>
+</ul>
+</div>
+<p></p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="variantieanalyse.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="opgaven-uit-het-boek-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"collapse": "subsection"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

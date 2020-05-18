@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Variantieanalyse | Stat2: General linear model</title>
+  <meta name="description" content="Variantieanalyse | Stat2: General linear model" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Variantieanalyse | Stat2: General linear model" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Variantieanalyse | Stat2: General linear model" />
+  
+  
+  
+
+<meta name="author" content="Mark Smits" />
+
+
+<meta name="date" content="2019-10-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="les-5-one-way-anova.html"/>
+<link rel="next" href="posthoctoets.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Voorwoord</a><ul>
+<li class="chapter" data-level="" data-path="opzet.html"><a href="opzet.html"><i class="fa fa-check"></i>Opzet</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-1-experimental-design.html"><a href="les-1-experimental-design.html"><i class="fa fa-check"></i>Les 1: Experimental design</a></li>
+<li class="chapter" data-level="" data-path="les-2-experimental-design-vervolg.html"><a href="les-2-experimental-design-vervolg.html"><i class="fa fa-check"></i>Les 2: Experimental design, vervolg</a><ul>
+<li class="chapter" data-level="" data-path="power-berekenen-in-r.html"><a href="power-berekenen-in-r.html"><i class="fa fa-check"></i>Power berekenen in R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-3-general-linear-models.html"><a href="les-3-general-linear-models.html"><i class="fa fa-check"></i>Les 3: General Linear Models</a><ul>
+<li class="chapter" data-level="" data-path="statistisch-schatten.html"><a href="statistisch-schatten.html"><i class="fa fa-check"></i>Statistisch schatten</a></li>
+<li class="chapter" data-level="" data-path="f-toets.html"><a href="f-toets.html"><i class="fa fa-check"></i>F-toets</a></li>
+<li class="chapter" data-level="" data-path="glm-in-r.html"><a href="glm-in-r.html"><i class="fa fa-check"></i>GLM in R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-4-lineaire-regressie.html"><a href="les-4-lineaire-regressie.html"><i class="fa fa-check"></i>Les 4: Lineaire regressie</a><ul>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html"><i class="fa fa-check"></i>Lineaire regressie in R</a><ul>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html#data-importeren"><i class="fa fa-check"></i>data importeren</a></li>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html#figuur-maken"><i class="fa fa-check"></i>Figuur maken</a></li>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html#variantieanalyse-uitvoeren"><i class="fa fa-check"></i>Variantieanalyse uitvoeren</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regressiemodel-gebruiken-voor-voorspellingen.html"><a href="regressiemodel-gebruiken-voor-voorspellingen.html"><i class="fa fa-check"></i>Regressiemodel gebruiken voor voorspellingen</a></li>
+<li class="chapter" data-level="" data-path="oefenen-met-data.html"><a href="oefenen-met-data.html"><i class="fa fa-check"></i>Oefenen met data</a></li>
+<li class="chapter" data-level="" data-path="opgaven-uit-het-boek.html"><a href="opgaven-uit-het-boek.html"><i class="fa fa-check"></i>Opgaven uit het boek</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-5-one-way-anova.html"><a href="les-5-one-way-anova.html"><i class="fa fa-check"></i>Les 5: One-way ANOVA</a><ul>
+<li class="chapter" data-level="" data-path="variantieanalyse.html"><a href="variantieanalyse.html"><i class="fa fa-check"></i>Variantieanalyse</a></li>
+<li class="chapter" data-level="" data-path="posthoctoets.html"><a href="posthoctoets.html"><i class="fa fa-check"></i>Posthoctoets</a></li>
+<li class="chapter" data-level="" data-path="opgaven-uit-het-boek-1.html"><a href="opgaven-uit-het-boek-1.html"><i class="fa fa-check"></i>Opgaven uit het boek</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-6-two-way-anova.html"><a href="les-6-two-way-anova.html"><i class="fa fa-check"></i>Les 6: Two-way ANOVA</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Stat2: General linear model</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="variantieanalyse" class="section level2">
+<h2>Variantieanalyse</h2>
+<p>Men doet onderzoek naar de melksnelheid van drie verschillende rassen koeien (HF, MRY en RHF) waarbij de melksnelheid in kg/min is gemeten bij een aantal koeien van deze rassen, zie hieronder:</p>
+<p><img src="[05]_Onewayanova_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Melkgift is de <strong>responsvariabele</strong> en ras de <strong>verklarende variabele</strong>. Nu is de vraag of de rassen van elkaar verschillen in melkgift. Uitgedrukt in hypotheses:</p>
+<ul>
+<li>H<sub>0</sub>: gemiddelde melkgift is gelijk voor de drie rassen</li>
+<li>H<sub>1</sub>: gemiddelden melkgift zijn niet allemaal gelijk voor de drie rassen</li>
+</ul>
+<p>Onder de H<sub>0</sub> kan de data beschreven worden als één populatie met gemiddelde is 3.04 kg/min. Onder de H<sub>1</sub> heeft ieder ras een eigen gemiddelde.</p>
+<p>We kunnen in de grafiek al zien dat ras MRY nogal afwijkt van de andere twee. Met een ANOVA kunnen we berekenen hoe waarschijnlijk het is dat we een minstens zo afwijkend patroon zien als de H<sub>0</sub> wel waar is (dus geen verschil).</p>
+<p>Hoe voeren we dat uit in R:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(Melksnelheid ~<span class="st"> </span>ras, <span class="dt">data=</span>koeien)
+<span class="kw">summary</span>(fit)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = Melksnelheid ~ ras, data = koeien)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.12000 -0.06567 -0.01833  0.06250  0.15800 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  2.95200    0.04589  64.334 2.67e-13 ***
+## rasMRY       0.25800    0.06883   3.748  0.00457 ** 
+## rasRHF       0.01467    0.07493   0.196  0.84916    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1026 on 9 degrees of freedom
+## Multiple R-squared:  0.6427, Adjusted R-squared:  0.5633 
+## F-statistic: 8.094 on 2 and 9 DF,  p-value: 0.009743</code></pre>
+<p>Op de laatste regel van de output staat het resultaat van de F-toets. De p-waarde is 0.0097432. Het is dus heel onwaarschijnlijk dat de H<sub>0</sub> waar is, en kunnen die met een gerust hart verwerpen.</p>
+<p>De F-waarde is 8.0941106. De waarde staat voor de verhouding van verklaarde variantie door het model en overgebleven variantie. Hoe grote de F-waarde, des te beter het model de totale variantie verklaart.</p>
+<p>We kunnen de totale variantie en overgebleven variantie weergeven in een histogram:</p>
+<p><img src="[05]_Onewayanova_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>De volgende opgave is gebaseerd op een onderzoek, gepubliceerd in the <em>American Society of Animal Science</em>. Het sporenelement silicium (Si) heeft een positieve invloed op de gezondheid van beenderen. In een onderzoek wil men de vraag beantwoord zien of het toevoegen van voedingssupplementen met silicium aan het rantsoen van zogende merries het siliciumgehalte in het bloed van veulens beïnvloedt. In een experiment met 15 zogende merries van hetzelfde ras en ongeveer dezelfde leeftijd probeert men 3 verschillende doses voedingssupplementen met silicium uit. De 15 merries worden via loting toebedeeld aan een specifieke dosis. Na enige tijd meet men het siliciumgehalte in het bloed van de veulens. De resultaten:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">dosis</th>
+<th align="center">Si-gehalte (<span class="math inline">\(\mu\)</span>g/l)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">129; 137; 129; 134; 139</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">133; 148; 142; 139; 134</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">138; 148; 140; 145; 148</td>
+</tr>
+</tbody>
+</table>
+
+<div class="exercise">
+<p><span id="exr:Silicium" class="exercise"><strong>Opdracht 7  </strong></span>Silicium</p>
+<ul>
+<li>Maak een Excelbestand van bovenstaande data. Verzin een goede structuur</li>
+<li>Zorg dat het Excelbestand in je projectfolder van RStudio staat</li>
+<li>Schrijf een script dat de volgende zaken uitvoert:
+<ul>
+<li>Importeer Excel</li>
+<li>Test of dosis een effect heeft op siliciumgehalte in het bloed van de veulen m.b.v. een GLM</li>
+</ul></li>
+</ul>
+</div>
+<p></p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="les-5-one-way-anova.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="posthoctoets.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"collapse": "subsection"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

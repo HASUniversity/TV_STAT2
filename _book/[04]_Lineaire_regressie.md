@@ -1,0 +1,173 @@
+#Les 4: Lineaire regressie
+
+\BeginKnitrBlock{ABD}<div class="ABD">
+Lees Chapter 17 (*Regression*):
+
+* 17.1 *Linear regression*
+* 17.2 *Confidence in predictions*
+* 17.3 *Testing hypotheses about a slope*
+* 17.4 *Assumptions of regression*
+* 17.5 *Assumptions of regression*
+
+</div>\EndKnitrBlock{ABD}
+
+##Lineaire regressie in R
+Zoals in de vorige les al genoemd voer je een lineaire regressie uit met de functie `lm()`.
+Als voorbeeld de data van de ijklijn van het zetmeelpracticum uit jaar 1:
+
+
+Table: (\#tab:unnamed-chunk-2)ijklijn zetmeelproef
+
+ absorptie   concentratie
+----------  -------------
+     0.000          0.000
+     0.030          0.125
+     0.060          0.250
+     0.176          0.500
+     0.249          0.750
+     0.285          1.000
+
+###data importeren
+Als de data in een Excelbestand staat, importeer je die met de functie `read_excel` uit de package *readxl*.
+Bijv.:
+
+
+```r
+library(readxl)
+ijklijn <- read_excel("ijklijn.xlsx")
+```
+
+
+###Figuur maken
+Het is een goede gewoonte om de data eerst in een figuur weer te geven.
+Dan zie je in één oogopslag of het wel zin heeft de data te gebruiken voor je ijklijn:
+
+
+```r
+library(tidyverse)
+ijklijn %>% 
+  ggplot(aes(absorptie, concentratie)) +
+  geom_point() +
+  geom_smooth(method = "lm", se=FALSE) +
+  theme_classic()
+```
+
+<img src="[04]_Lineaire_regressie_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+
+Met de regel `geom_smooth(method="lm", se=FALSE)` voeg je de regressielijn al toe.
+`method="lm"` geeft aan dat de lijn bepaald wordt via de functie `lm()`, dus het GLM.
+
+
+###Variantieanalyse uitvoeren
+Maar wil je details van de uitgevoerde GLM bekijken, moet je alsnog de functie `lm()` uitvoeren:
+
+
+```r
+fit <- lm(ijklijn$concentratie~ijklijn$absorptie)
+summary(fit)
+```
+
+```
+## 
+## Call:
+## lm(formula = ijklijn$concentratie ~ ijklijn$absorptie)
+## 
+## Residuals:
+##        1        2        3        4        5        6 
+## -0.01456  0.01528  0.04512 -0.07284 -0.05440  0.08141 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)        0.01456    0.04238   0.344 0.748467    
+## ijklijn$absorptie  3.17205    0.24555  12.918 0.000207 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.0659 on 4 degrees of freedom
+## Multiple R-squared:  0.9766,	Adjusted R-squared:  0.9707 
+## F-statistic: 166.9 on 1 and 4 DF,  p-value: 0.0002071
+```
+
+Je krijgt dan flink wat output.
+In volgorde:
+
+* **Call**: Het GLM dat je hebt uitgevoerd
+* **Residuals**: De afwijkingen t.o.v. de ijklijn
+* **Coefficients**: de parameterwaarden van het regressiemodel. 
+    * **intercept** is het snijpunt met de y-as (b in de functie $y=ax+b$). 
+    * **ijklijn$absorptie** is de richtingscoëfficient (dus a in de functie $y=ax+b$). 
+    * **Estimate** is de geschatte parameterwaarde.
+    * **Std. Error** is de standaardfout van de geschatte parameterwaarde.
+    * **t value** is de t-waarde van de geschatte parameterwaarde (onder de H~0~ dat de parameterwaarde 0 is).
+    * **Pr(>|t|)** is de p-waarde van de tweezijdig tweezijdig uitgevoerde t-toets
+* **Signif. codes**: de betekenis van de sterretjes (in welke klasse de p-waarde valt).
+* **Residual standard error**: de geschatte standaarddeviatie van de residuën (het gemiddelde is altijd 0).
+* **Multiple R-squared**: de R^2^, oftwel de fractie verklaarde variantie (hoe dichter bij 1 des te beter de fit).
+* **Adjusted R-squared**:  de R^2^, gecorrigeerd voor de complexiteit van je model.
+* **F-statistic**: De berekende F-waarde.
+* **p-value**:  de p-waarde die volgt uit de F-toets.
+
+Voor meer details, zie de volgende [link](https://stats.stackexchange.com/questions/5135/interpretation-of-rs-lm-output){target="_blank"}
+
+
+##Regressiemodel gebruiken voor voorspellingen
+Vaak voer je een regressie uit om een rekenmodel te maken.
+Een voorbeeld is de ijklijn van hiervoor.
+Zo'n ijklijn hebben jullie vorig jaar gebruikt om gevonden absorptiewaarden uit de zetmeeltest om te zetten naar de geschatte zetmeelconcentratie.
+
+De omslachtige manier is om uit R de parameterwaarden van de regressie-analyse te halen, in Excel een functie te maken, en hiermee de concentraties te berekenen.
+
+Het kan eenvoudiger in R:
+
+
+```r
+library(readxl)
+library(writexl)
+
+#Formule maken voor ijklijn
+fit <- lm(concentratie~absorptie ,data=ijklijn)
+
+#Meetdata laden. Zorg dat deze exact dezelfde
+#variabelenaam heeft als de ijklijn voor absorptie
+zetmeelproef <- read_excel("zetmeelproef.xlsx")
+
+#Voorspel de concentratie met de functie predict()
+zetmeelproef$concentratie <- predict(fit, zetmeelproef)
+
+#Data kan je opslaan als csv-bestand (kan je weer lezen in Excel)
+write_excel(zetmeelproef, "zetmeelproef.csv")
+```
+
+
+Let op:
+
+* Zorg ervoor dat je in het lm-model alleen de variabelenamen gebruikt, dataframe roep je op via het argument `data=`).
+* De variabele met de gemeten waarden moet exact dezelfde naam hebben als die van het lm-model.
+* Wil je van een enkele waarde de voorspelling hebben, moet het toch aangeboden worden als een dataframe in de functie `predict`: bijv. `predict(fit, data.frame(absorptie=1.5))`.
+
+
+
+
+##Oefenen met data
+
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:zeugen"><strong>(\#exr:zeugen) </strong></span>
+Er wordt verondersteld dat de gewichtstoename van zeugen tijdens de dracht een voorspellende waarde hebben voor het geboortegewicht van de biggen.
+Dat is onderzocht bij 10 zeugen.
+
+* Download de file zeugen.xslx van blackboard
+* Maak een grafiek met gewichtstoename_zeug op de x-as en geboortegewicht op de y-as
+* Voor een lineaire regressie uit, en zoek uit wat de R^2^ en de p-waarde is.
+* Voorspel wat het geboortegewicht is van de biggen indien de zeug tijdens de dracht 15 kg toeneemt.
+</div>\EndKnitrBlock{exercise}
+
+
+
+##Opgaven uit het boek
+\BeginKnitrBlock{exercise}<div class="exercise"><span class="exercise" id="exr:les4"><strong>(\#exr:les4) </strong></span>
+Maak de volgende *practical problems* uit het boek:
+
+1\*, 2\*, 3\*, 4, 5, 6\*, 7, 8, 9, 12, 14, 16, 17\*
+
+\*Niet met de hand uitrekenen, gebruik lm() en de output er van in R
+
+</div>\EndKnitrBlock{exercise}

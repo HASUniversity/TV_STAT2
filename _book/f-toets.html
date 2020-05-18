@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>F-toets | Stat2: General linear model</title>
+  <meta name="description" content="F-toets | Stat2: General linear model" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="F-toets | Stat2: General linear model" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="F-toets | Stat2: General linear model" />
+  
+  
+  
+
+<meta name="author" content="Mark Smits" />
+
+
+<meta name="date" content="2019-10-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="statistisch-schatten.html"/>
+<link rel="next" href="glm-in-r.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Voorwoord</a><ul>
+<li class="chapter" data-level="" data-path="opzet.html"><a href="opzet.html"><i class="fa fa-check"></i>Opzet</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-1-experimental-design.html"><a href="les-1-experimental-design.html"><i class="fa fa-check"></i>Les 1: Experimental design</a></li>
+<li class="chapter" data-level="" data-path="les-2-experimental-design-vervolg.html"><a href="les-2-experimental-design-vervolg.html"><i class="fa fa-check"></i>Les 2: Experimental design, vervolg</a><ul>
+<li class="chapter" data-level="" data-path="power-berekenen-in-r.html"><a href="power-berekenen-in-r.html"><i class="fa fa-check"></i>Power berekenen in R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-3-general-linear-models.html"><a href="les-3-general-linear-models.html"><i class="fa fa-check"></i>Les 3: General Linear Models</a><ul>
+<li class="chapter" data-level="" data-path="statistisch-schatten.html"><a href="statistisch-schatten.html"><i class="fa fa-check"></i>Statistisch schatten</a></li>
+<li class="chapter" data-level="" data-path="f-toets.html"><a href="f-toets.html"><i class="fa fa-check"></i>F-toets</a></li>
+<li class="chapter" data-level="" data-path="glm-in-r.html"><a href="glm-in-r.html"><i class="fa fa-check"></i>GLM in R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-4-lineaire-regressie.html"><a href="les-4-lineaire-regressie.html"><i class="fa fa-check"></i>Les 4: Lineaire regressie</a><ul>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html"><i class="fa fa-check"></i>Lineaire regressie in R</a><ul>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html#data-importeren"><i class="fa fa-check"></i>data importeren</a></li>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html#figuur-maken"><i class="fa fa-check"></i>Figuur maken</a></li>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html#variantieanalyse-uitvoeren"><i class="fa fa-check"></i>Variantieanalyse uitvoeren</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regressiemodel-gebruiken-voor-voorspellingen.html"><a href="regressiemodel-gebruiken-voor-voorspellingen.html"><i class="fa fa-check"></i>Regressiemodel gebruiken voor voorspellingen</a></li>
+<li class="chapter" data-level="" data-path="oefenen-met-data.html"><a href="oefenen-met-data.html"><i class="fa fa-check"></i>Oefenen met data</a></li>
+<li class="chapter" data-level="" data-path="opgaven-uit-het-boek.html"><a href="opgaven-uit-het-boek.html"><i class="fa fa-check"></i>Opgaven uit het boek</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-5-one-way-anova.html"><a href="les-5-one-way-anova.html"><i class="fa fa-check"></i>Les 5: One-way ANOVA</a><ul>
+<li class="chapter" data-level="" data-path="variantieanalyse.html"><a href="variantieanalyse.html"><i class="fa fa-check"></i>Variantieanalyse</a></li>
+<li class="chapter" data-level="" data-path="posthoctoets.html"><a href="posthoctoets.html"><i class="fa fa-check"></i>Posthoctoets</a></li>
+<li class="chapter" data-level="" data-path="opgaven-uit-het-boek-1.html"><a href="opgaven-uit-het-boek-1.html"><i class="fa fa-check"></i>Opgaven uit het boek</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-6-two-way-anova.html"><a href="les-6-two-way-anova.html"><i class="fa fa-check"></i>Les 6: Two-way ANOVA</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Stat2: General linear model</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="f-toets" class="section level2">
+<h2>F-toets</h2>
+<p>In jaar 1 zijn jullie de t-toets tegengekomen. Hiermee test je (in het geval van een onafhankelijke t-toets) of de gemiddelden van twee groepen significant van elkaar verschillen. Met andere woorden:</p>
+<ul>
+<li>Hoe waarschijnlijk is het dat je een minstens zo groot verschil krijgt in de <strong>steekproef</strong>gemiddelden, terwijl er in werkelijkheid geen verschil is (dus de kansverdeling onder de <strong>H<sub>0</sub></strong>).</li>
+<li>Is die waarschijnlijkheid (de p-waarde) minder dan de drempelwaarde (<span class="math inline">\(\alpha\)</span>, meestal 0,05), dan wordt de H<sub>0</sub> verworpen en zeggen we dat het verschil significant is.</li>
+</ul>
+<p>Wat je (of de computer) doet is een kansverdeling maken van de mogelijke verschillen in gemiddelden.</p>
+<p>Begin twintigste eeuw heeft Ronald Fisher (zie <a href="https://en.wikipedia.org/wiki/Ronald_Fisher" target="_blank">wikipedia</a>) een alternatieve manier ontwikkeld op basis van verklaarde variantie: de <strong>F-toets</strong>:</p>
+<p><span class="math display">\[F=\frac{MS_{verklaard}}{MS_{rest}}\]</span> MS staat voor de <em>Mean Squares</em>, oftewel de gemiddelde kwadraatafstand. Deze manier van toetsen wordt variantieanalyse genoemd, of op zijn Engels <em>Analysis of Variance</em>: <strong>ANOVA</strong>.</p>
+<p>Als voorbeeld de data uit de vorige oefening. De totale variantie in de data vind je door een horizontale lijn (dus a=0) door het gemiddelde te trekken (dus b zo kiezen dat SSE minimaal is). De gemiddelde kwadraatafstand wordt dan de gevonden SSE gedeeld door 2 (het aantal waarnemingen - 1). Dat is MS<sub>totaal</sub>.</p>
+<p>Als je nu a en b zo kiest dat de SSE geminimaliseerd wordt, hou je restvariantie over. Deel dit door 29 en je hebt MS<sub>rest</sub>. De verklaarde variantie is MS<sub>totaal</sub> - MS<sub>rest</sub>.</p>
+<p>Gelukkig hoef je niet zelf te goochelen met deze varianties, daar hebben we R voor. Wat je wel moet onthouden is dat <strong>hoe beter de fit van het statistisch model, des te hoger F wordt</strong>.</p>
+<p>Met wat extra gegoochel met statistisch formules kan je aantonen dat de kansverdeling van F dezelfde is als de kansverdeling van t<sup>2</sup>. De berekende waarde voor F (via bovenstaande formule) geeft precies dezelfde uitkomst als de berekende waarde voor t. Kijk maar eens naar onderstaande figuur en de bijbehorende toetsen.</p>
+<p><img src="[03]_Inleiding_GLM_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t.test</span>(df$lengte~df$groep, <span class="dt">var.equal=</span><span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  df$lengte by df$groep
+## t = -7.1998, df = 18, p-value = 1.063e-06
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -9.529953 -5.224566
+## sample estimates:
+## mean in group a mean in group b 
+##        12.07949        19.45674</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">lm</span>(df$lengte~df$groep))</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = df$lengte ~ df$groep)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.3835 -1.6107  0.1688  1.2992  4.4270 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  12.0795     0.7245   16.67 2.17e-12 ***
+## df$groepb     7.3773     1.0246    7.20 1.06e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.291 on 18 degrees of freedom
+## Multiple R-squared:  0.7423, Adjusted R-squared:  0.7279 
+## F-statistic: 51.84 on 1 and 18 DF,  p-value: 1.063e-06</code></pre>
+<p>Vergelijk je de p-waardes, dan zie je dat ze precies gelijk zijn. En de F-waarde is het kwadraat van de t-waarde (ga zelf na).</p>
+<p>Waarom heb je dan toch de t-toets moeten leren? Twee redenen:</p>
+<ul>
+<li>Met een t-toets kan je ook <strong>eenzijdig</strong> testen (H<sub>1</sub>: a&lt;b)</li>
+<li>Bij een t-toets heb je de keuze om wel of niet de aanname te maken dat de variantie gelijk is voor beide groepen. Bij ANOVA maak je altijd die aanname!</li>
+</ul>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="statistisch-schatten.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="glm-in-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"collapse": "subsection"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

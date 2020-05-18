@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lineaire regressie in R | Stat2: General linear model</title>
+  <meta name="description" content="Lineaire regressie in R | Stat2: General linear model" />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lineaire regressie in R | Stat2: General linear model" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lineaire regressie in R | Stat2: General linear model" />
+  
+  
+  
+
+<meta name="author" content="Mark Smits" />
+
+
+<meta name="date" content="2019-10-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="les-4-lineaire-regressie.html"/>
+<link rel="next" href="regressiemodel-gebruiken-voor-voorspellingen.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Voorwoord</a><ul>
+<li class="chapter" data-level="" data-path="opzet.html"><a href="opzet.html"><i class="fa fa-check"></i>Opzet</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-1-experimental-design.html"><a href="les-1-experimental-design.html"><i class="fa fa-check"></i>Les 1: Experimental design</a></li>
+<li class="chapter" data-level="" data-path="les-2-experimental-design-vervolg.html"><a href="les-2-experimental-design-vervolg.html"><i class="fa fa-check"></i>Les 2: Experimental design, vervolg</a><ul>
+<li class="chapter" data-level="" data-path="power-berekenen-in-r.html"><a href="power-berekenen-in-r.html"><i class="fa fa-check"></i>Power berekenen in R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-3-general-linear-models.html"><a href="les-3-general-linear-models.html"><i class="fa fa-check"></i>Les 3: General Linear Models</a><ul>
+<li class="chapter" data-level="" data-path="statistisch-schatten.html"><a href="statistisch-schatten.html"><i class="fa fa-check"></i>Statistisch schatten</a></li>
+<li class="chapter" data-level="" data-path="f-toets.html"><a href="f-toets.html"><i class="fa fa-check"></i>F-toets</a></li>
+<li class="chapter" data-level="" data-path="glm-in-r.html"><a href="glm-in-r.html"><i class="fa fa-check"></i>GLM in R</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-4-lineaire-regressie.html"><a href="les-4-lineaire-regressie.html"><i class="fa fa-check"></i>Les 4: Lineaire regressie</a><ul>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html"><i class="fa fa-check"></i>Lineaire regressie in R</a><ul>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html#data-importeren"><i class="fa fa-check"></i>data importeren</a></li>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html#figuur-maken"><i class="fa fa-check"></i>Figuur maken</a></li>
+<li class="chapter" data-level="" data-path="lineaire-regressie-in-r.html"><a href="lineaire-regressie-in-r.html#variantieanalyse-uitvoeren"><i class="fa fa-check"></i>Variantieanalyse uitvoeren</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="regressiemodel-gebruiken-voor-voorspellingen.html"><a href="regressiemodel-gebruiken-voor-voorspellingen.html"><i class="fa fa-check"></i>Regressiemodel gebruiken voor voorspellingen</a></li>
+<li class="chapter" data-level="" data-path="oefenen-met-data.html"><a href="oefenen-met-data.html"><i class="fa fa-check"></i>Oefenen met data</a></li>
+<li class="chapter" data-level="" data-path="opgaven-uit-het-boek.html"><a href="opgaven-uit-het-boek.html"><i class="fa fa-check"></i>Opgaven uit het boek</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-5-one-way-anova.html"><a href="les-5-one-way-anova.html"><i class="fa fa-check"></i>Les 5: One-way ANOVA</a><ul>
+<li class="chapter" data-level="" data-path="variantieanalyse.html"><a href="variantieanalyse.html"><i class="fa fa-check"></i>Variantieanalyse</a></li>
+<li class="chapter" data-level="" data-path="posthoctoets.html"><a href="posthoctoets.html"><i class="fa fa-check"></i>Posthoctoets</a></li>
+<li class="chapter" data-level="" data-path="opgaven-uit-het-boek-1.html"><a href="opgaven-uit-het-boek-1.html"><i class="fa fa-check"></i>Opgaven uit het boek</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="les-6-two-way-anova.html"><a href="les-6-two-way-anova.html"><i class="fa fa-check"></i>Les 6: Two-way ANOVA</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Stat2: General linear model</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lineaire-regressie-in-r" class="section level2">
+<h2>Lineaire regressie in R</h2>
+<p>Zoals in de vorige les al genoemd voer je een lineaire regressie uit met de functie <code>lm()</code>. Als voorbeeld de data van de ijklijn van het zetmeelpracticum uit jaar 1:</p>
+<table>
+<caption><span id="tab:unnamed-chunk-2">Tabel 1: </span>ijklijn zetmeelproef</caption>
+<thead>
+<tr class="header">
+<th align="right">absorptie</th>
+<th align="right">concentratie</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="right">0.030</td>
+<td align="right">0.125</td>
+</tr>
+<tr class="odd">
+<td align="right">0.060</td>
+<td align="right">0.250</td>
+</tr>
+<tr class="even">
+<td align="right">0.176</td>
+<td align="right">0.500</td>
+</tr>
+<tr class="odd">
+<td align="right">0.249</td>
+<td align="right">0.750</td>
+</tr>
+<tr class="even">
+<td align="right">0.285</td>
+<td align="right">1.000</td>
+</tr>
+</tbody>
+</table>
+<div id="data-importeren" class="section level3">
+<h3>data importeren</h3>
+<p>Als de data in een Excelbestand staat, importeer je die met de functie <code>read_excel</code> uit de package <em>readxl</em>. Bijv.:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)
+ijklijn &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span class="st">&quot;ijklijn.xlsx&quot;</span>)</code></pre></div>
+</div>
+<div id="figuur-maken" class="section level3">
+<h3>Figuur maken</h3>
+<p>Het is een goede gewoonte om de data eerst in een figuur weer te geven. Dan zie je in één oogopslag of het wel zin heeft de data te gebruiken voor je ijklijn:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
+ijklijn %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(absorptie, concentratie)) +
+<span class="st">  </span><span class="kw">geom_point</span>() +
+<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se=</span><span class="ot">FALSE</span>) +
+<span class="st">  </span><span class="kw">theme_classic</span>()</code></pre></div>
+<p><img src="[04]_Lineaire_regressie_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Met de regel <code>geom_smooth(method=&quot;lm&quot;, se=FALSE)</code> voeg je de regressielijn al toe. <code>method=&quot;lm&quot;</code> geeft aan dat de lijn bepaald wordt via de functie <code>lm()</code>, dus het GLM.</p>
+</div>
+<div id="variantieanalyse-uitvoeren" class="section level3">
+<h3>Variantieanalyse uitvoeren</h3>
+<p>Maar wil je details van de uitgevoerde GLM bekijken, moet je alsnog de functie <code>lm()</code> uitvoeren:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit &lt;-<span class="st"> </span><span class="kw">lm</span>(ijklijn$concentratie~ijklijn$absorptie)
+<span class="kw">summary</span>(fit)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = ijklijn$concentratie ~ ijklijn$absorptie)
+## 
+## Residuals:
+##        1        2        3        4        5        6 
+## -0.01456  0.01528  0.04512 -0.07284 -0.05440  0.08141 
+## 
+## Coefficients:
+##                   Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        0.01456    0.04238   0.344 0.748467    
+## ijklijn$absorptie  3.17205    0.24555  12.918 0.000207 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.0659 on 4 degrees of freedom
+## Multiple R-squared:  0.9766, Adjusted R-squared:  0.9707 
+## F-statistic: 166.9 on 1 and 4 DF,  p-value: 0.0002071</code></pre>
+<p>Je krijgt dan flink wat output. In volgorde:</p>
+<ul>
+<li><strong>Call</strong>: Het GLM dat je hebt uitgevoerd</li>
+<li><strong>Residuals</strong>: De afwijkingen t.o.v. de ijklijn</li>
+<li><strong>Coefficients</strong>: de parameterwaarden van het regressiemodel.
+<ul>
+<li><strong>intercept</strong> is het snijpunt met de y-as (b in de functie <span class="math inline">\(y=ax+b\)</span>).</li>
+<li><strong>ijklijn$absorptie</strong> is de richtingscoëfficient (dus a in de functie <span class="math inline">\(y=ax+b\)</span>).</li>
+<li><strong>Estimate</strong> is de geschatte parameterwaarde.</li>
+<li><strong>Std. Error</strong> is de standaardfout van de geschatte parameterwaarde.</li>
+<li><strong>t value</strong> is de t-waarde van de geschatte parameterwaarde (onder de H<sub>0</sub> dat de parameterwaarde 0 is).</li>
+<li><strong>Pr(&gt;|t|)</strong> is de p-waarde van de tweezijdig tweezijdig uitgevoerde t-toets</li>
+</ul></li>
+<li><strong>Signif. codes</strong>: de betekenis van de sterretjes (in welke klasse de p-waarde valt).</li>
+<li><strong>Residual standard error</strong>: de geschatte standaarddeviatie van de residuën (het gemiddelde is altijd 0).</li>
+<li><strong>Multiple R-squared</strong>: de R<sup>2</sup>, oftwel de fractie verklaarde variantie (hoe dichter bij 1 des te beter de fit).</li>
+<li><strong>Adjusted R-squared</strong>: de R<sup>2</sup>, gecorrigeerd voor de complexiteit van je model.</li>
+<li><strong>F-statistic</strong>: De berekende F-waarde.</li>
+<li><strong>p-value</strong>: de p-waarde die volgt uit de F-toets.</li>
+</ul>
+<p>Voor meer details, zie de volgende <a href="https://stats.stackexchange.com/questions/5135/interpretation-of-rs-lm-output" target="_blank">link</a></p>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="les-4-lineaire-regressie.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="regressiemodel-gebruiken-voor-voorspellingen.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"collapse": "subsection"
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
